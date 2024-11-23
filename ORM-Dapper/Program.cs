@@ -11,7 +11,14 @@ using Microsoft.Extensions.Configuration;using MySql.Data.MySqlClient;namespa
                         .Build();
 
             string connString = config.GetConnectionString("DefaultConnection");
-            IDbConnection conn = new MySqlConnection(connString);
+            IDbConnection connection = new MySqlConnection(connString);
+
+            var repo = new DapperProductRepository(connection);
+            var products = repo.GetAllProducts();
+
+            foreach(var prod in products)            {
+                Console.WriteLine($"{prod.ProductID} {prod.Name}");
+            }
         }
     }
 }
